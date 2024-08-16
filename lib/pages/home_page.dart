@@ -1,22 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:use_theme_flutter/utils/helper_vidgets.dart';
+import 'package:use_theme_flutter/theme/theme_manager.dart';
+import 'package:use_theme_flutter/utils/helper_widgets.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+  final ThemeManager themeManager;
+
+  const MyHomePage({
+    super.key,
+    required this.themeManager,
+  });
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Theme App"),
         actions: [
-          Switch(value: false, onChanged: (newValue) {}),
+          Switch(
+            value: widget.themeManager.themeMode == ThemeMode.dark,
+            onChanged: (bool value) {
+              setState(() {
+                widget.themeManager.toggleTheme(value);
+              });
+            },
+          ),
           addHorisontalSpace(10),
         ],
       ),
@@ -30,8 +42,8 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             Image.asset(
               'assets/images/avatar_male.png',
-              width: getDynamicHeight10(context) * 20,
-              height: getDynamicHeight10(context) * 20,
+              width: getDynamicHeight10(context) * 15,
+              height: getDynamicHeight10(context) * 15,
             ),
             addVerticalSpace(
               getDynamicHeight10(context),
