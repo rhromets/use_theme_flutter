@@ -17,6 +17,9 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
+    TextTheme textTheme = Theme.of(context).textTheme;
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Theme App"),
@@ -48,15 +51,30 @@ class _MyHomePageState extends State<MyHomePage> {
             addVerticalSpace(
               getDynamicHeight10(context),
             ),
-            const Text('Your Name'),
+            Text(
+              'Your Name',
+              style: textTheme.titleLarge,
+            ),
             addVerticalSpace(
               getDynamicHeight10(context),
             ),
-            const Text('@username'),
+            Text(
+              '@username',
+              style: textTheme.titleMedium,
+            ),
             addVerticalSpace(
               getDynamicHeight10(context),
             ),
-            const Text('This is a simple Status'),
+            Text(
+              'This is a simple Status',
+              style: isDark
+                  ? textTheme.titleMedium?.copyWith(
+                      color: Colors.white70,
+                    )
+                  : textTheme.titleMedium?.copyWith(
+                      color: Colors.deepPurple,
+                    ),
+            ),
             addVerticalSpace(
               getDynamicHeight10(context),
             ),
@@ -64,9 +82,28 @@ class _MyHomePageState extends State<MyHomePage> {
             addVerticalSpace(
               getDynamicHeight10(context),
             ),
-            ElevatedButton(
-              onPressed: () {},
-              child: const Text('Click'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () {},
+                  child: Text(
+                    'Click 1',
+                    style: isDark
+                        ? textTheme.bodyMedium!.copyWith(
+                            color: const Color.fromARGB(255, 118, 128, 181),
+                          )
+                        : textTheme.bodyMedium!.copyWith(
+                            color: Colors.white,
+                          ),
+                  ),
+                ),
+                addHorisontalSpace(15),
+                ElevatedButton(
+                  onPressed: () {},
+                  child: const Text('Click 2'),
+                ),
+              ],
             ),
           ],
         ),
