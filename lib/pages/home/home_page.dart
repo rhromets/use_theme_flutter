@@ -1,20 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:use_theme_flutter/theme/theme_manager.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:use_theme_flutter/pages/home/theme_bloc.dart';
 import 'package:use_theme_flutter/utils/helper_widgets.dart';
 
-class MyHomePage extends StatefulWidget {
-  final ThemeManager themeManager;
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({super.key});
 
-  const MyHomePage({
-    super.key,
-    required this.themeManager,
-  });
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
@@ -24,12 +15,14 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: const Text("Theme App"),
         actions: [
-          Switch(
-            value: widget.themeManager.themeMode == ThemeMode.dark,
-            onChanged: (bool value) {
-              setState(() {
-                widget.themeManager.toggleTheme(value);
-              });
+          BlocBuilder<ThemeBloc, ThemeState>(
+            builder: (context, state) {
+              return Switch(
+                value: state.themeMode == ThemeMode.dark,
+                onChanged: (bool value) {
+                  context.read<ThemeBloc>().add(ToggleThemeEvent(value));
+                },
+              );
             },
           ),
           addHorisontalSpace(10),
